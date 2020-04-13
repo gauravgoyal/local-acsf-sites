@@ -1,0 +1,16 @@
+{
+    "name": "gauravgoyal/local-acsf-sites",
+    "description": "Create ACSF sites locally",
+    "authors": [
+        {
+            "name": "Gaurav Goyal",
+            "email": "gaurav.goyal@acquia.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+          "GauravGoyal\\LAS\\": "./src/"
+        }
+      }
+}
