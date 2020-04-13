@@ -49,7 +49,6 @@ class CloneSiteCommand extends BltTasks {
     $gitIgnoreContent = [];
     $gitIgnoreContent[] = "\n# Ignoring $sitename.";
     $gitIgnoreContent[] = "docroot/sites/$sitename/";
-    $gitIgnoreContent[] = "docroot/sites/default/blt.yml";
 
     $this->say("Adding pre-sites-php hook");
     $fs = new Filesystem();
@@ -90,6 +89,8 @@ class CloneSiteCommand extends BltTasks {
         ->stopOnFail()
         ->run();
       $gitIgnoreContent[] = "blt/$filename";
+      $gitIgnoreContent[] = "\n# Ignoring default blt.yml file";
+      $gitIgnoreContent[] = "docroot/sites/default/blt.yml";
     }
 
     $data = YamlMunge::parseFile($localMultisiteConfig);
@@ -101,6 +102,9 @@ class CloneSiteCommand extends BltTasks {
     foreach ($gitIgnoreContent as $content) {
       $fs->appendToFile($gitIgnoreFile, $content . "\n");
     }
+
+    $this->say("Please run <comment>vagrant up --provision</comment> to create a virtual host and database entry.");
+    $this->say("Running <comment>blt sync --site=$sitename will sync data from remote environment to local.");
   }
 
   /**
