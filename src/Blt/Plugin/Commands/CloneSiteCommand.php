@@ -117,7 +117,7 @@ class CloneSiteCommand extends BltTasks {
     $sitename = $arguments['sitename'];
     $fs = new FileSystem();
     $multisiteDir = $this->getConfigValue('docroot');
-    $siteDir = $multisiteDir . ' / sites / default / ' . $sitename;
+    $siteDir = $multisiteDir . '/sites/default/' . $sitename;
     if ($fs->exists($siteDir)) {
       throw new RuntimeException('Multisite already exists .');
     }
