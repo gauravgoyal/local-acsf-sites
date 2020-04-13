@@ -67,10 +67,10 @@ class CloneSiteCommand extends BltTasks {
 
     $filename = 'local-multisite.php';
     $localPreSitePhpFile = $preSitesPhpHook . '/' . $filename;
-    $sourceMultiSitePhp = "../../../../scripts/$filename";
+    $sourceMultiSitePhp = __DIR__ . "/../../../../scripts/$filename";
 
     if (!$fs->exists($localPreSitePhpFile)) {
-      $this->say('Creating $localPreSitePhpFile hook to populate sites data');
+      $this->say("Creating <comment>$localPreSitePhpFile</comment> hook to populate sites data");
       $this->taskFilesystemStack()
         ->copy($sourceMultiSitePhp, $localPreSitePhpFile)
         ->stopOnFail()
@@ -81,20 +81,20 @@ class CloneSiteCommand extends BltTasks {
 
     $filename = 'local.multisite.yml';
     $localMultisiteConfig = "$repoRoot/blt/local.multisite.yml";
-    $sourceMultiSiteConfigPath = "../../../../scripts/$filename";
+    $sourceMultiSiteConfigPath = __DIR__ . "/../../../../scripts/$filename";
 
     if (!$fs->exists($localMultisiteConfig)) {
-      $this->say('Creating $localMultisiteConfig file to populate sites data');
+      $this->say("Creating <comment>$localMultisiteConfig</comment> file to populate sites data");
       $this->taskFilesystemStack()
         ->copy($sourceMultiSiteConfigPath, $localMultisiteConfig)
         ->stopOnFail()
         ->run();
-      $gitIgnoreContent[] = $localMultisiteConfig;
+      $gitIgnoreContent[] = "blt/$filename";
     }
 
-    $data = YamlMunge::parseFile($localMultisiteConfigPath);
+    $data = YamlMunge::parseFile($localMultisiteConfig);
     \array_push($data['sites'], $sitename);
-    YamlMunge::writeFile($localMultisiteConfigPath, $data);
+    YamlMunge::writeFile($localMultisiteConfig, $data);
 
     $gitIgnoreFile = $repoRoot . '/.gitignore';
 
